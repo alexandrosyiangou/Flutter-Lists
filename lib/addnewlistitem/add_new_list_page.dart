@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lists/list/list_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../list/list_bloc.dart';
 
 class AddNewListPage extends StatelessWidget {
 
   static const routeName = '/addnewlist';
-
+  final listsCollection = Firestore.instance.collection('Lists');
   AddNewListPage();
 
   @override
@@ -37,10 +38,12 @@ class AddNewListPage extends StatelessWidget {
               stream: listBloc.getItem,
               builder: (context, snapshot) => RaisedButton(
                 child: Text('Click me'),
-                onPressed: () {
-                  listBloc.newListItem.add(NewListItem(snapshot.data));
-                  Navigator.maybePop(context);
-                },
+                onPressed: () => Firestore.instance.runTransaction((Transaction tx) async {
+                    Record record = Record(name: snapshot.data, votes: 0);
+                    await listsCollection.add(record.toJson());
+                    Navigator.maybePop(context);
+                  }
+                ),
               ),
             ),
           ],
@@ -48,4 +51,23 @@ class AddNewListPage extends StatelessWidget {
       ),
     );
   }
+}
+
+
+class Record {
+  final String name;
+  final int votes;
+
+  Record({
+    this.name, 
+    this.votes,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'votes': votes,
+  };
+
+  @override
+  String toString() => "Record<$name:$votes>";
 }

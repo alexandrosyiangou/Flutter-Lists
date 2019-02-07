@@ -35,7 +35,13 @@ class ListPage extends StatelessWidget {
                   child: ListTile(
                     title: Text(record.name),
                     trailing: Text(record.votes.toString()),
-                    onTap: () => print(record),
+                     onTap: () => Firestore.instance.runTransaction((transaction) async {
+                        final freshSnapshot = await transaction.get(record.reference);
+                        final fresh = Record.fromSnapshot(freshSnapshot);
+
+                        await transaction.update(record.reference, {'votes': fresh.votes + 1});
+                      }
+                    ),
                   ),
                 ),
               );
@@ -98,6 +104,11 @@ class Record {
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'votes': votes,
+  };
 
   @override
   String toString() => "Record<$name:$votes>";
