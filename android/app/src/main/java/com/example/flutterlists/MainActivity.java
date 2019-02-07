@@ -1,4 +1,4 @@
-package com.example.flutterlists;
+package com.test.flutterlists;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
