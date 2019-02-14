@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lists/list/list_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../list/list_bloc.dart';
-
 class AddNewListPage extends StatelessWidget {
 
   static const routeName = '/addnewlist';

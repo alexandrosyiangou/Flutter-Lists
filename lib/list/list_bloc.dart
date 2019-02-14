@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:rxdart/subjects.dart';
-import 'package:flutter/material.dart';
 
 import '../common/models/simplelist.dart';
 

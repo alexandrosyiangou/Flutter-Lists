@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'list_provider.dart';
-import '../common/models/simplelist.dart';
-import '../listitem/list_item_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ListPage extends StatelessWidget {
 
   static const routeName = '/list';
 
-    @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
